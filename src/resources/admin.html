@@ -22,34 +22,43 @@
 <body>
 
     <!-- TODO: Create a 'header' with a main heading ('h1') "Manage Course Resources". -->
-
+<header>
+    <h1>Manage Course Resources</h1>
+</header>
     <!-- TODO: Create the 'main' content area. -->
-
+<main>
         <!-- Section 1: Add/Edit Resource Form -->
         <!-- TODO: Create a 'section' for the form. -->
+     <section>
             <!-- TODO: Add a sub-heading ('h2') "Add a New Resource". -->
-
+ <h2>Add a New Resource</h2>
             <!-- TODO: Create a 'form' with an id "resource-form". Action can be '#'. -->
+       <form id="resource-form" action="#">
                 <!-- TODO: Use a 'fieldset' to group the form controls. -->
+          <fieldset>
                     <!-- TODO: Add a 'legend', e.g., "Resource Details". -->
-
+             <legend>Resource Details</legend>
                     <!-- TODO: Add a 'label' and 'input' for the resource title.
                          - label 'for': "resource-title"
                          - input 'id': "resource-title", type="text", required -->
-
+<label for="resource-title">Title:</label>
+<input id="resource-title" type="text" required>
                     <!-- TODO: Add a 'label' and 'textarea' for the resource description.
                          - label 'for': "resource-description"
                          - textarea 'id': "resource-description" -->
-                    
+<label for="resource-description">Description:</label>
+<textarea id="resource-description"></textarea>
                     <!-- TODO: Add a 'label' and 'input' for the resource link.
                          - label 'for': "resource-link"
                          - input 'id': "resource-link", type="url", required -->
-
+<label for="resource-link">Resource Link:</label>
+<input id="resource-link" type="url" required>
                     <!-- TODO: Add a 'button' to submit the form.
                          - id="add-resource", type="submit", Text: "Add Resource" -->
-                <!-- End of fieldset. -->
-            <!-- End of form. -->
-        <!-- End of form section. -->
+<button id="add-resource" type="submit">Add Resource</button>
+                <!-- End of fieldset. --> </fieldset>
+            <!-- End of form. --> </form>
+        <!-- End of form section. --> </section>
 
 
         <!-- Section 2: Existing Resources List -->
