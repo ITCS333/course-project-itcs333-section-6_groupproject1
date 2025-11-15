@@ -17,9 +17,9 @@ let resources = [];
 
 // --- Element Selections ---
 // TODO: Select the resource form ('#resource-form').
-
+const resourceForm = document.querySelector('#resource-form');
 // TODO: Select the resources table body ('#resources-tbody').
-
+const resourcesTbody = document.querySelector('#resources-tbody');
 // --- Functions ---
 
 /**
@@ -34,6 +34,16 @@ let resources = [];
  */
 function createResourceRow(resource) {
   // ... your implementation here ...
+      const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${resource.title}</td>
+        <td>${resource.description}</td>
+        <td>
+            <button class="edit-btn" data-id="${resource.id}">Edit</button>
+            <button class="delete-btn" data-id="${resource.id}">Delete</button>
+        </td>
+    `;
+    return tr;
 }
 
 /**
@@ -46,6 +56,11 @@ function createResourceRow(resource) {
  */
 function renderTable() {
   // ... your implementation here ...
+    resourcesTbody.innerHTML = '';
+    resources.forEach(resource => {
+        const row = createResourceRow(resource);
+        resourcesTbody.appendChild(row);
+    });
 }
 
 /**
@@ -61,6 +76,19 @@ function renderTable() {
  */
 function handleAddResource(event) {
   // ... your implementation here ...
+    event.preventDefault();
+    const title = document.querySelector('#resource-title').value;
+    const description = document.querySelector('#resource-description').value;
+    const link = document.querySelector('#resource-link').value;
+    const newResource = {
+        id: `res_${Date.now()}`,
+        title: title,
+        description: description,
+        link: link
+    };
+    resources.push(newResource);
+    renderTable();
+    resourceForm.reset();
 }
 
 /**
@@ -75,6 +103,11 @@ function handleAddResource(event) {
  */
 function handleTableClick(event) {
   // ... your implementation here ...
+   if (event.target.classList.contains('delete-btn')) {
+        const id = event.target.getAttribute('data-id');
+        resources = resources.filter(resource => resource.id !== id);
+        renderTable();
+    }
 }
 
 /**
@@ -89,6 +122,11 @@ function handleTableClick(event) {
  */
 async function loadAndInitialize() {
   // ... your implementation here ...
+    const response = await fetch('resources.json');
+    resources = await response.json();
+    renderTable();
+    resourceForm.addEventListener('submit', handleAddResource);
+    resourcesTbody.addEventListener('click', handleTableClick);
 }
 
 // --- Initial Page Load ---
