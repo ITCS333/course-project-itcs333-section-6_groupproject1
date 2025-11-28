@@ -9,26 +9,41 @@
 <html lang="en">
 <head>
     <!-- TODO: Add the 'meta' tag for character encoding (UTF-8). -->
+  <meta charset="UTF-8">
     
     <!-- TODO: Add the responsive 'viewport' meta tag. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- TODO: Add a title, e.g., "Manage Weekly Breakdown". -->
+  <title>Manage Weekly Breakdown</title>
+
 
     <!-- TODO: Link to your CSS framework or stylesheet. -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- TODO: Create a 'header' with a main heading ('h1') "Manage Weekly Breakdown". -->
+    <!-- TODO: Create a 'header' with a main heading ('h') "Manage Weekly Breakdown". -->
+  <header>
+        <h1>Manage Weekly Breakdown</h1>
+    </header>
+
 
     <!-- TODO: Create the 'main' content area. -->
+   <main class="container">
 
         <!-- Section 1: Add/Edit Week Form -->
         <!-- TODO: Create a 'section' for the form. -->
+      <section class="form-section">
             <!-- TODO: Add a sub-heading ('h2') "Add a New Week". -->
+        <h2>Add a New Week</h2>
 
             <!-- TODO: Create a 'form' with an id "week-form". Action can be '#'. -->
+         <form id="week-form" action="#">
                 <!-- TODO: Use a 'fieldset' to group the form controls. -->
+           <fieldset>
                     <!-- TODO: Add a 'legend', e.g., "Weekly Details". -->
+             <legend>Weekly Details</legend>
 
                     <!-- TODO: Add a 'label' and 'input' for the week's title.
                          - label 'for': "week-title"
@@ -50,8 +65,11 @@
                     <!-- TODO: Add a 'button' to submit the form.
                          - id="add-week", type="submit", Text: "Add Week" -->
                 <!-- End of fieldset. -->
+           </fieldset>
             <!-- End of form. -->
+           </form>
         <!-- End of form section. -->
+              </section>
 
 
         <!-- Section 2: Existing Weekly Entries -->
@@ -77,8 +95,10 @@
                 <!-- End of tbody. -->
             <!-- End of table. -->
         <!-- End of list section. -->
+        </section>
 
     <!-- End of main. -->
+     </main>
 </body>
 </html>
 
