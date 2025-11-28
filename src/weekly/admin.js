@@ -108,6 +108,36 @@ function renderTable() {
  */
 function handleAddWeek(event) {
   // ... your implementation here ...
+  event.preventDefault();
+
+  // Get form values
+  const title = document.getElementById('week-title').value;
+  const startDate = document.getElementById('week-start-date').value;
+  const description = document.getElementById('week-description').value;
+  const linksText = document.getElementById('week-links').value;
+  
+  // Process links (split by newlines and trim)
+  const links = linksText.split('\n')
+    .map(link => link.trim())
+    .filter(link => link !== '');
+  
+  // Create new week object
+  const newWeek = {
+    id: `week_${Date.now()}`,
+    title: title,
+    startDate: startDate,
+    description: description,
+    links: links
+  };
+  
+  // Add to global weeks array
+  weeks.push(newWeek);
+  
+  // Refresh table
+  renderTable();
+  
+  // Reset form
+  event.target.reset();
 }
 
 /**
@@ -122,6 +152,16 @@ function handleAddWeek(event) {
  */
 function handleTableClick(event) {
   // ... your implementation here ...
+
+  if (event.target.classList.contains('delete-btn')) {
+    const weekId = event.target.getAttribute('data-id');
+    
+    // Filter out the deleted week
+    weeks = weeks.filter(week => week.id !== weekId);
+    
+    // Refresh table
+    renderTable();
+  }
 }
 
 /**
@@ -136,6 +176,27 @@ function handleTableClick(event) {
  */
 async function loadAndInitialize() {
   // ... your implementation here ...
+
+  try {
+    // Load weeks data from JSON file
+    const response = await fetch('weeks.json');
+    weeks = await response.json();
+    
+    // Render the table with loaded data
+    renderTable();
+    
+    // Add event listeners
+    weekForm.addEventListener('submit', handleAddWeek);
+    weeksTableBody.addEventListener('click', handleTableClick);
+    
+  } catch (error) {
+    console.error('Error loading weeks data:', error);
+    // Initialize with empty array if JSON file doesn't exist
+    weeks = [];
+    renderTable();
+    weekForm.addEventListener('submit', handleAddWeek);
+    weeksTableBody.addEventListener('click', handleTableClick);
+  }
 }
 
 // --- Initial Page Load ---
