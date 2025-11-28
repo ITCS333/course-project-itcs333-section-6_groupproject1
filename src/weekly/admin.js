@@ -17,8 +17,11 @@ let weeks = [];
 
 // --- Element Selections ---
 // TODO: Select the week form ('#week-form').
+const weekForm = document.getElementById('week-form');
+
 
 // TODO: Select the weeks table body ('#weeks-tbody').
+const weeksTableBody = document.getElementById('weeks-tbody');
 
 // --- Functions ---
 
@@ -34,6 +37,39 @@ let weeks = [];
  */
 function createWeekRow(week) {
   // ... your implementation here ...
+  const row = document.createElement('tr');
+
+  // Title cell
+  const titleCell = document.createElement('td');
+  titleCell.textContent = week.title;
+  row.appendChild(titleCell);
+
+  // Description cell
+  const descCell = document.createElement('td');
+  descCell.textContent = week.description;
+  row.appendChild(descCell);
+
+  // Actions cell
+  const actionsCell = document.createElement('td');
+  actionsCell.className = 'actions';
+
+  // Edit button
+  const editBtn = document.createElement('button');
+  editBtn.className = 'edit-btn';
+  editBtn.textContent = 'Edit';
+  editBtn.setAttribute('data-id', week.id);
+
+  // Delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'delete-btn';
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.setAttribute('data-id', week.id);
+
+  actionsCell.appendChild(editBtn);
+  actionsCell.appendChild(deleteBtn);
+  row.appendChild(actionsCell);
+
+  return row;
 }
 
 /**
@@ -46,6 +82,15 @@ function createWeekRow(week) {
  */
 function renderTable() {
   // ... your implementation here ...
+
+  // Clear existing table content
+  weeksTableBody.innerHTML = '';
+
+  // Loop through weeks and create rows
+  weeks.forEach(week => {
+    const row = createWeekRow(week);
+    weeksTableBody.appendChild(row);
+  });
 }
 
 /**
