@@ -49,21 +49,51 @@
                          - label 'for': "week-title"
                          - input 'id': "week-title", type="text", required
                          - Example placeholder: "Week 1: Introduction to HTML" -->
+             <label for="week-title">Week Title</label>
+                    <input 
+                        id="week-title"
+                        name="week-title"
+                        type="text"
+                        placeholder="Week 1: Introduction to HTML"
+                        required
+                    >
 
                     <!-- TODO: Add a 'label' and 'input' for the week's starting date.
                          - label 'for': "week-start-date"
                          - input 'id': "week-start-date", type="date", required -->
+             <label for="week-start-date">Starting Date</label>
+                    <input 
+                        id="week-start-date"
+                        name="week-start-date"
+                        type="date"
+                        required
+                    >
 
                     <!-- TODO: Add a 'label' and 'textarea' for the week's description and notes.
                          - label 'for': "week-description"
                          - textarea 'id': "week-description", rows="5" -->
+             <label for="week-description">Description / Notes</label>
+                    <textarea
+                        id="week-description"
+                        name="week-description"
+                        rows="5"
+                        placeholder="Describe the week’s content..."
+                    ></textarea>
                     
                     <!-- TODO: Add a 'label' and 'textarea' for links to exercises or resources (one link per line).
                          - label 'for': "week-links"
                          - textarea 'id': "week-links", rows="3" -->
+             <label for="week-links">Exercise Links (one per line)</label>
+                    <textarea
+                        id="week-links"
+                        name="week-links"
+                        rows="3"
+                        placeholder="https://example1.com&#10;https://example2.com"
+                    ></textarea>
 
                     <!-- TODO: Add a 'button' to submit the form.
                          - id="add-week", type="submit", Text: "Add Week" -->
+             <button id="add-week" type="submit">Add Week</button>
                 <!-- End of fieldset. -->
            </fieldset>
             <!-- End of form. -->
@@ -74,11 +104,21 @@
 
         <!-- Section 2: Existing Weekly Entries -->
         <!-- TODO: Create a 'section' to display the list of current weeks. -->
+     <section class="weeks-section">
             <!-- TODO: Add a sub-heading ('h2') "Current Weekly Breakdown". -->
+      <h2>Current Weekly Breakdown</h2>
 
             <!-- TODO: Create a 'table' with id "weeks-table". -->
+       <table id="weeks-table" class="weeks-table">
                 <!-- TODO: Create a 'thead' and a 'tr' inside it. -->
+         <thead>
+                    <tr>
                     <!-- TODO: Add 'th' elements for "Week Title", "Description", and "Actions". -->
+                      <th>Week Title</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
                 
                 <!-- TODO: Create a 'tbody' for the data. -->
                     <!-- TODO: Add 1-2 rows of dummy data to see the structure. -->
