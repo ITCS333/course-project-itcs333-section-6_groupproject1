@@ -1,1 +1,510 @@
 /* CSS Styles */
+/* ============================================
+   Universal Styles & CSS Reset
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Color Palette */
+    --primary-color: #2196F3;
+    --primary-dark: #1976D2;
+    --primary-light: #BBDEFB;
+    --secondary-color: #4CAF50;
+    --secondary-dark: #388E3C;
+    --accent-color: #FF9800;
+    --danger-color: #F44336;
+    --warning-color: #FFC107;
+    
+    /* Neutral Colors */
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --border-color: #E0E0E0;
+    --bg-light: #FAFAFA;
+    --bg-white: #FFFFFF;
+    --shadow: rgba(0, 0, 0, 0.1);
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    
+    /* Transitions */
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-light);
+    min-height: 100vh;
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    color: var(--primary-dark);
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+/* ============================================
+   Header Styles
+   ============================================ */
+header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: var(--spacing-lg) var(--spacing-md);
+    box-shadow: 0 4px 6px var(--shadow);
+    text-align: center;
+}
+
+header h1 {
+    color: white;
+    margin: 0;
+    font-size: 2rem;
+}
+
+/* ============================================
+   Main Content Area
+   ============================================ */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+/* ============================================
+   Navigation Styles (Homepage)
+   ============================================ */
+nav {
+    background: var(--bg-white);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 8px var(--shadow);
+    margin-bottom: var(--spacing-lg);
+}
+
+nav h2 {
+    color: var(--primary-dark);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+nav ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-sm);
+}
+
+nav li {
+    margin: 0;
+}
+
+nav a {
+    display: block;
+    padding: var(--spacing-md);
+    background: var(--bg-light);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--primary-color);
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+nav a:hover {
+    background: var(--primary-light);
+    border-left-color: var(--primary-dark);
+    transform: translateX(8px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* ============================================
+   Section Styles
+   ============================================ */
+section {
+    background: var(--bg-white);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+section h2 {
+    color: var(--primary-dark);
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: var(--spacing-sm);
+}
+
+/* ============================================
+   Form Styles
+   ============================================ */
+form {
+    width: 100%;
+}
+
+fieldset {
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+}
+
+legend {
+    font-weight: 600;
+    color: var(--primary-dark);
+    padding: 0 var(--spacing-sm);
+    font-size: 1.1rem;
+}
+
+label {
+    display: block;
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xs);
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--bg-white);
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+input:invalid {
+    border-color: var(--danger-color);
+}
+
+input:valid {
+    border-color: var(--secondary-color);
+}
+
+/* ============================================
+   Button Styles
+   ============================================ */
+button {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: var(--spacing-md);
+}
+
+button[type="submit"] {
+    background: var(--primary-color);
+    color: white;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+.edit-btn {
+    background: var(--accent-color);
+    color: white;
+    padding: var(--spacing-xs) var(--spacing-md);
+    margin: var(--spacing-xs);
+}
+
+.edit-btn:hover {
+    background: #F57C00;
+}
+
+.delete-btn {
+    background: var(--danger-color);
+    color: white;
+    padding: var(--spacing-xs) var(--spacing-md);
+    margin: var(--spacing-xs);
+}
+
+.delete-btn:hover {
+    background: #D32F2F;
+}
+
+/* ============================================
+   Login Page Specific Styles
+   ============================================ */
+body[style*="display: flex"] main {
+    width: 100%;
+    max-width: 450px;
+}
+
+body[style*="display: flex"] section {
+    box-shadow: 0 8px 24px var(--shadow);
+}
+
+body[style*="display: flex"] h1 {
+    text-align: center;
+    color: var(--primary-dark);
+}
+
+#message-container {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* ============================================
+   Details & Summary (Collapsible Sections)
+   ============================================ */
+details {
+    background: var(--bg-light);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+summary {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+}
+
+summary:hover {
+    background: var(--primary-light);
+}
+
+details[open] summary {
+    margin-bottom: var(--spacing-md);
+    background: var(--primary-light);
+}
+
+/* ============================================
+   Table Styles
+   ============================================ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-md);
+    background: var(--bg-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+}
+
+thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+th {
+    padding: var(--spacing-md);
+    text-align: left;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+td {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:hover {
+    background: var(--bg-light);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+td button {
+    margin-top: 0;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    nav ul {
+        grid-template-columns: 1fr;
+    }
+    
+    main {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+    
+    section {
+        padding: var(--spacing-md);
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: var(--spacing-sm);
+    }
+    
+    .edit-btn, .delete-btn {
+        display: block;
+        width: 100%;
+        margin: var(--spacing-xs) 0;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    body[style*="display: flex"] main {
+        padding: var(--spacing-sm);
+    }
+    
+    fieldset {
+        padding: var(--spacing-md);
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+}
+
+/* ============================================
+   Accessibility Improvements
+   ============================================ */
+*:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+button:focus,
+input:focus {
+    outline: 3px solid var(--primary-color);
+}
+
+/* High contrast for better readability */
+@media (prefers-contrast: high) {
+    :root {
+        --border-color: #000000;
+        --text-primary: #000000;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-primary: #E0E0E0;
+        --text-secondary: #BDBDBD;
+        --bg-light: #1E1E1E;
+        --bg-white: #2D2D2D;
+        --border-color: #424242;
+        --shadow: rgba(0, 0, 0, 0.3);
+    }
+    
+    body {
+        background-color: #121212;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        background: #2D2D2D;
+        color: #E0E0E0;
+    }
+}
+
+/* ============================================
+   Animation for smooth transitions
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeIn 0.5s ease;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+    header {
+        background: white;
+        color: black;
+    }
+    
+    button {
+        display: none;
+    }
+    
+    section {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
