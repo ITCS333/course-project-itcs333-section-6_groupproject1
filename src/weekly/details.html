@@ -59,34 +59,68 @@
 
         <!-- Section 2: Discussion Forum -->
         <!-- TODO: Create a 'section' for the discussion, with an 'id' of "discussion-forum". -->
+    <section id="discussion-forum">
             <!-- TODO: Add a sub-heading ('h2') "Discussion". -->
+      <h2>Discussion</h2>
+
 
             <!-- Subsection 2.1: Existing Comments -->
             <!-- TODO: Add a container (like a 'div') for the list of comments. -->
+      <div class="comments-container">
                 <!-- TODO: Add 1-2 dummy comments to show the structure. -->
 
                 <!-- Example Comment 1: -->
                 <!-- TODO: Use an 'article' for each comment. -->
+        <article class="comment">
                     <!-- TODO: Use a 'p' for the comment text (e.g., "I have a question about the 'header' tag."). -->
+          <p class="comment-text">I have a question about the difference between the 'header' tag .</p>
                     <!-- TODO: Use a 'footer' to show the author (e.g., "Posted by: John Doe"). -->
+          <footer class="comment-meta">Posted by: John Doe</footer>
                 <!-- End of comment article. -->
+           </article>
+
+        <!-- Example Comment 2: -->
+                <article class="comment">
+                    <p class="comment-text">The exercises were really helpful for understanding semantic HTML. Looking forward to next week's CSS content!</p>
+                    <footer class="comment-meta">Posted by: Sarah Smith</footer>
+                </article>
+            </div>
 
             <!-- Subsection 2.2: Add a Comment Form -->
             <!-- TODO: Create a 'form' for users to post new comments. Action can be '#'. -->
+      <form id="comment-form" action="#">
                 <!-- TODO: Use a 'fieldset' to group the controls. -->
+         <fieldset>
                     <!-- TODO: Add a 'legend', e.g., "Ask a Question". -->
+           <legend>Ask a Question</legend>
 
                     <!-- TODO: Add a 'label' and 'textarea' for the comment box.
                          - label 'for': "new-comment"
                          - textarea 'id': "new-comment", required -->
+           <div class="form-group">
+                        <label for="new-comment">Your Comment:</label>
+                        <textarea
+                            id="new-comment"
+                            name="new-comment"
+                            rows="4"
+                            required
+                            placeholder="Share your thoughts or ask a question..."
+                        ></textarea>
+                    </div>
                     
                     <!-- TODO: Add a 'button' to submit the comment.
                          - type="submit", Text: "Post Comment" -->
+           <button type="submit">Post Comment</button>
+                
                 <!-- End of fieldset. -->
+           </fieldset>
             <!-- End of form. -->
+        </form>
         <!-- End of discussion section. -->
+       </section>
 
     <!-- End of main. -->
+    </main>
 </body>
 </html>
 
