@@ -156,6 +156,7 @@ function getAllResources($db) {
      $resources = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // TODO: Return JSON response with success status and data
     // Use the helper function sendResponse()
+    sendResponse(true, 'Resources retrieved successfully', $resources);
 }
 
 
@@ -173,19 +174,33 @@ function getAllResources($db) {
 function getResourceById($db, $resourceId) {
     // TODO: Validate that resource ID is provided and is numeric
     // If not, return error response with 400 status
+     // Validate that resource ID is provided and is numeric
+    if (empty($resourceId) || !is_numeric($resourceId)) {
+        http_response_code(400);
+        sendResponse(false, 'Invalid resource ID');
+        return;
     
     // TODO: Prepare SQL query to select resource by id
     // SELECT id, title, description, link, created_at FROM resources WHERE id = ?
-    
+     $sql = "SELECT id, title, description, link, created_at FROM resources WHERE id = ?";
+    $stmt = $db->prepare($sql);
     // TODO: Bind the resource_id parameter
-    
+    $stmt->bindParam(1, $resourceId, PDO::PARAM_INT);
     // TODO: Execute the query
-    
+      $stmt->execute();
     // TODO: Fetch the result as an associative array
-    
+     $resource = $stmt->fetch(PDO::FETCH_ASSOC);
     // TODO: Check if resource exists
     // If yes, return success response with resource data
     // If no, return error response with 404 status
+           if ($resource) {
+        // If yes, return success response with resource data
+        sendResponse(true, 'Resource retrieved successfully', $resource);
+    } else {
+        // If no, return error response with 404 status
+        http_response_code(404);
+        sendResponse(false, 'Resource not found');
+    }
 }
 
 
