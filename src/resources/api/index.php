@@ -744,13 +744,15 @@ else {
  */
 function sendResponse($data, $statusCode = 200) {
     // TODO: Set HTTP response code using http_response_code()
-    
+     http_response_code($statusCode);
     // TODO: Ensure data is an array
     // If not, wrap it in an array
-    
+     if (!is_array($data)) {
+        $data = ['data' => $data];
+    }
     // TODO: Echo JSON encoded data
     // Use JSON_PRETTY_PRINT for readability (optional)
-    
+      echo json_encode($data, JSON_PRETTY_PRINT);
     // TODO: Exit to prevent further execution
     exit;
 }
@@ -765,6 +767,7 @@ function sendResponse($data, $statusCode = 200) {
 function validateUrl($url) {
     // TODO: Use filter_var with FILTER_VALIDATE_URL
     // Return true if valid, false otherwise
+     return filter_var($url, FILTER_VALIDATE_URL) !== false;
 }
 
 
@@ -776,13 +779,14 @@ function validateUrl($url) {
  */
 function sanitizeInput($data) {
     // TODO: Trim whitespace using trim()
-    
+     return trim($data);
     // TODO: Strip HTML tags using strip_tags()
-    
+     return strip_tags(trim($data));
     // TODO: Convert special characters using htmlspecialchars()
     // Use ENT_QUOTES to escape both double and single quotes
-    
+      return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES);
     // TODO: Return sanitized data
+     return htmlspecialchars(strip_tags(trim($data)), ENT_QUOTES);
 }
 
 
@@ -795,13 +799,20 @@ function sanitizeInput($data) {
  */
 function validateRequiredFields($data, $requiredFields) {
     // TODO: Initialize empty array for missing fields
-    
+     $missing = [];
     // TODO: Loop through required fields
     // Check if each field exists in data and is not empty
     // If missing or empty, add to missing fields array
-    
+     foreach ($requiredFields as $field) {
+        // Check if each field exists in data and is not empty
+        if (!isset($data[$field]) || empty($data[$field])) {
+            // If missing or empty, add to missing fields array
+            $missing[] = $field;
+        }
+    }
     // TODO: Return result array
     // ['valid' => (count($missing) === 0), 'missing' => $missing]
+    return ['valid' => (count($missing) === 0), 'missing' => $missing];
 }
 
 ?>
