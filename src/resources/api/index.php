@@ -151,9 +151,9 @@ function getAllResources($db) {
         $stmt->bindParam(':search', $searchTerm);
     }
     // TODO: Execute the query
-    
+        $stmt->execute();
     // TODO: Fetch all results as an associative array
-    
+     $resources = $stmt->fetchAll(PDO::FETCH_ASSOC);
     // TODO: Return JSON response with success status and data
     // Use the helper function sendResponse()
 }
