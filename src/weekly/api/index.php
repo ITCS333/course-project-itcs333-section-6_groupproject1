@@ -71,16 +71,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // TODO: Get the HTTP request method
 // Use $_SERVER['REQUEST_METHOD']
+$method = $_SERVER['REQUEST_METHOD'];
 
 
 // TODO: Get the request body for POST and PUT requests
 // Use file_get_contents('php://input') to get raw POST data
 // Decode JSON data using json_decode()
+$input = json_decode(file_get_contents('php://input'), true);
 
 
 // TODO: Parse query parameters
 // Get the 'resource' parameter to determine if request is for weeks or comments
 // Example: ?resource=weeks or ?resource=comments
+$resource = $_GET['resource'] ?? 'weeks';
 
 
 // ============================================================================
@@ -482,11 +485,14 @@ try {
 function sendResponse($data, $statusCode = 200) {
     // TODO: Set HTTP response code
     // Use http_response_code($statusCode)
+      http_response_code($statusCode);
     
     // TODO: Echo JSON encoded data
     // Use json_encode($data)
+    echo json_encode($data);
     
     // TODO: Exit to prevent further execution
+    exit();
 }
 
 
@@ -499,8 +505,10 @@ function sendResponse($data, $statusCode = 200) {
 function sendError($message, $statusCode = 400) {
     // TODO: Create error response array
     // Structure: ['success' => false, 'error' => $message]
+    $response = ['success' => false, 'error' => $message];
     
     // TODO: Call sendResponse() with the error array and status code
+    sendResponse($response, $statusCode);
 }
 
 
@@ -515,6 +523,8 @@ function validateDate($date) {
     // Format: 'Y-m-d'
     // Check that the created date matches the input string
     // Return true if valid, false otherwise
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') === $date;
 }
 
 
@@ -526,12 +536,16 @@ function validateDate($date) {
  */
 function sanitizeInput($data) {
     // TODO: Trim whitespace
+    $data = trim($data);
     
     // TODO: Strip HTML tags using strip_tags()
+    $data = strip_tags($data);
     
     // TODO: Convert special characters using htmlspecialchars()
+    $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
     
     // TODO: Return sanitized data
+    return $data;
 }
 
 
@@ -546,6 +560,7 @@ function isValidSortField($field, $allowedFields) {
     // TODO: Check if $field exists in $allowedFields array
     // Use in_array()
     // Return true if valid, false otherwise
+    return in_array($field, $allowedFields);
 }
 
 ?>
