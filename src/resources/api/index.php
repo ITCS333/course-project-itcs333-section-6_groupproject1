@@ -294,35 +294,92 @@ function createResource($db, $data) {
 function updateResource($db, $data) {
     // TODO: Validate that resource ID is provided
     // If not, return error response with 400 status
-    
+     if (empty($data['id']) || !is_numeric($data['id'])) {
+        http_response_code(400);
+        sendResponse(false, 'Resource ID is required and must be numeric');
+        return;
+    }
     // TODO: Check if resource exists
     // Prepare and execute a SELECT query to find the resource by id
     // If not found, return error response with 404 status
+     $checkSql = "SELECT id FROM resources WHERE id = ?";
+    $checkStmt = $db->prepare($checkSql);
+    $checkStmt->bindParam(1, $data['id'], PDO::PARAM_INT);
+    $checkStmt->execute();
     
+    if ($checkStmt->rowCount() === 0) {
+        http_response_code(404);
+        sendResponse(false, 'Resource not found');
+        return;
+    }
     // TODO: Build UPDATE query dynamically based on provided fields
     // Initialize empty arrays for fields to update and values
     // Check which fields are provided (title, description, link)
     // Add each provided field to the update arrays
+        $updateFields = [];
+    $updateValues = [];
     
+    // Check which fields are provided (title, description, link)
+    if (isset($data['title']) && !empty(trim($data['title']))) {
+        $updateFields[] = "title = ?";
+        $updateValues[] = trim($data['title']);
+    }
+    
+    if (isset($data['description'])) {
+        $updateFields[] = "description = ?";
+        $updateValues[] = trim($data['description']);
+    }
+    
+    if (isset($data['link']) && !empty(trim($data['link']))) {
+        // Validate URL format for link
+        if (!filter_var(trim($data['link']), FILTER_VALIDATE_URL)) {
+            http_response_code(400);
+            sendResponse(false, 'Invalid URL format for link');
+            return;
+        }
+        $updateFields[] = "link = ?";
+        $updateValues[] = trim($data['link']);
+    }
     // TODO: If no fields to update, return error response with 400 status
-    
+     if (empty($updateFields)) {
+        http_response_code(400);
+        sendResponse(false, 'No fields provided for update');
+        return;
+    }
     // TODO: If link is being updated, validate URL format
     // Use filter_var with FILTER_VALIDATE_URL
     // If invalid, return error response with 400 status
-    
+     if (isset($data['link']) && !empty(trim($data['link']))) {
+        if (!filter_var(trim($data['link']), FILTER_VALIDATE_URL)) {
+            http_response_code(400);
+            sendResponse(false, 'Invalid URL format for link');
+            return;
+        }
+    }
     // TODO: Build the complete UPDATE SQL query
     // UPDATE resources SET field1 = ?, field2 = ? WHERE id = ?
-    
+     $sql = "UPDATE resources SET " . implode(', ', $updateFields) . " WHERE id = ?";
+    $updateValues[] = $data['id']; // Add the ID as the last parameter
     // TODO: Prepare the query
-    
+       $stmt = $db->prepare($sql);
     // TODO: Bind parameters dynamically
     // Bind all update values, then bind the resource ID at the end
-    
+     for ($i = 0; $i < count($updateValues); $i++) {
+        $stmt->bindValue($i + 1, $updateValues[$i]);
+    }
     // TODO: Execute the query
-    
+     $stmt->execute();
     // TODO: Check if update was successful
     // If yes, return success response with 200 status
     // If no, return error response with 500 status
+        if ($stmt->rowCount() > 0) {
+        // If yes, return success response with 200 status
+        sendResponse(true, 'Resource updated successfully');
+    } else {
+        // If no, return error response with 500 status
+        http_response_code(500);
+        sendResponse(false, 'Failed to update resource');
+    }
 }
 
 
