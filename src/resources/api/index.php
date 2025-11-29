@@ -399,37 +399,62 @@ function updateResource($db, $data) {
 function deleteResource($db, $resourceId) {
     // TODO: Validate that resource ID is provided and is numeric
     // If not, return error response with 400 status
-    
+     if (empty($resourceId) || !is_numeric($resourceId)) {
+        http_response_code(400);
+        sendResponse(false, 'Invalid resource ID');
+        return;
+    }
     // TODO: Check if resource exists
     // Prepare and execute a SELECT query
     // If not found, return error response with 404 status
+    $checkSql = "SELECT id FROM resources WHERE id = ?";
+    $checkStmt = $db->prepare($checkSql);
+    $checkStmt->bindParam(1, $resourceId, PDO::PARAM_INT);
+    $checkStmt->execute();
     
+    if ($checkStmt->rowCount() === 0) {
+        http_response_code(404);
+        sendResponse(false, 'Resource not found');
+        return;
+    }
     // TODO: Begin a transaction (for data integrity)
     // Use $db->beginTransaction()
-    
+     $db->beginTransaction();
     try {
         // TODO: First, delete all associated comments
         // Prepare DELETE query for comments table
         // DELETE FROM comments WHERE resource_id = ?
-        
+         $deleteCommentsSql = "DELETE FROM comments WHERE resource_id = ?";
+    $deleteCommentsStmt = $db->prepare($deleteCommentsSql);
+    $deleteCommentsStmt->bindParam(1, $resourceId, PDO::PARAM_INT);
+    $deleteCommentsStmt->execute();
         // TODO: Bind resource_id and execute
-        
+         $deleteCommentsStmt->bindParam(1, $resourceId, PDO::PARAM_INT);
+    $deleteCommentsStmt->execute();
         // TODO: Then, delete the resource
         // Prepare DELETE query for resources table
         // DELETE FROM resources WHERE id = ?
-        
+         $deleteResourceSql = "DELETE FROM resources WHERE id = ?";
+    $deleteResourceStmt = $db->prepare($deleteResourceSql);
+    $deleteResourceStmt->bindParam(1, $resourceId, PDO::PARAM_INT);
+    $deleteResourceStmt->execute();
         // TODO: Bind resource_id and execute
-        
+         $deleteResourceStmt->bindParam(1, $resourceId, PDO::PARAM_INT);
+    $deleteResourceStmt->execute();
         // TODO: Commit the transaction
         // Use $db->commit()
-        
+         $db->commit();
         // TODO: Return success response with 200 status
+          sendResponse(true, 'Resource and associated comments deleted successfully');
         
     } catch (Exception $e) {
         // TODO: Rollback the transaction on error
         // Use $db->rollBack()
-        
+         $db->rollBack();
         // TODO: Return error response with 500 status
+            http_response_code(500);
+    sendResponse(false, 'Failed to delete resource: ' . $e->getMessage());
+
     }
 }
 
