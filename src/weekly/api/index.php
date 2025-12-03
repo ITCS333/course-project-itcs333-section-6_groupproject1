@@ -196,7 +196,7 @@ function getWeekById($db, $weekId) {
     
     // TODO: Prepare SQL query to select week by week_id
     // SELECT week_id, title, start_date, description, links, created_at FROM weeks WHERE week_id = ?
-    sql = "SELECT week_id, title, start_date, description, links, created_at FROM weeks WHERE week_id = ?";
+   $sql = "SELECT week_id, title, start_date, description, links, created_at FROM weeks WHERE week_id = ?";
     $stmt = $db->prepare($sql);
     
     // TODO: Bind the week_id parameter
@@ -374,6 +374,7 @@ function updateWeek($db, $data) {
     if (isset($data['links'])) {
         $setClauses[] = "links = ?";
         $values[] = json_encode($data['links']);
+    }
     
     // TODO: If no fields to update, return error response with 400 status
         if (empty($setClauses)) {
@@ -447,7 +448,7 @@ function deleteWeek($db, $weekId) {
     $deleteCommentsStmt->bindValue(1, $weekId);
     $deleteCommentsStmt->execute();
     // Prepare DELETE query for comments table
-    deleteWeekSql = "DELETE FROM weeks WHERE week_id = ?";
+    $deleteWeekSql = "DELETE FROM weeks WHERE week_id = ?";
     $deleteWeekStmt = $db->prepare($deleteWeekSql);
     // DELETE FROM comments WHERE week_id = ?
     $deleteWeekStmt->bindValue(1, $weekId);
