@@ -672,6 +672,7 @@ try {
                 getWeekById($db, $_GET['week_id']);
             } else {
                 getAllWeeks($db);
+             }
             
         } elseif ($method === 'POST') {
             // TODO: Call createWeek() with the decoded request body
