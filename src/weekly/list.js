@@ -13,6 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the week list ('#week-list-section').
+const listSection = document.getElementById('week-list-section');
 
 // --- Functions ---
 
@@ -25,6 +26,34 @@
  */
 function createWeekArticle(week) {
   // ... your implementation here ...
+  const article = document.createElement('article');
+  article.className = 'week-card';
+
+  // Create heading
+  const heading = document.createElement('h2');
+  heading.textContent = week.title;
+  article.appendChild(heading);
+
+  // Create start date paragraph
+  const startDate = document.createElement('p');
+  startDate.className = 'start-date';
+  startDate.textContent = `Starts on: ${week.startDate}`;
+  article.appendChild(startDate);
+
+  // Create description paragraph
+  const description = document.createElement('p');
+  description.className = 'week-description';
+  description.textContent = week.description;
+  article.appendChild(description);
+
+  // Create details link
+  const detailsLink = document.createElement('a');
+  detailsLink.href = `details.html?id=${week.id}`;
+  detailsLink.textContent = 'View Details & Discussion';
+  detailsLink.className = 'details-link';
+  article.appendChild(detailsLink);
+
+  return article;
 }
 
 /**
@@ -40,6 +69,24 @@ function createWeekArticle(week) {
  */
 async function loadWeeks() {
   // ... your implementation here ...
+   try {
+    // Fetch weeks data from JSON file
+    const response = await fetch('weeks.json');
+    const weeks = await response.json();
+    
+    // Clear existing content
+    listSection.innerHTML = '';
+    
+    // Create and append articles for each week
+    weeks.forEach(week => {
+      const weekArticle = createWeekArticle(week);
+      listSection.appendChild(weekArticle);
+    });
+    
+  } catch (error) {
+    console.error('Error loading weeks data:', error);
+    listSection.innerHTML = '<p>Error loading course content. Please try again later.</p>';
+  }
 }
 
 // --- Initial Page Load ---

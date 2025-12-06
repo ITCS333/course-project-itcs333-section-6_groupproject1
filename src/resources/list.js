@@ -13,7 +13,7 @@
 
 // --- Element Selections ---
 // TODO: Select the section for the resource list ('#resource-list-section').
-
+const resourceListSection = document.getElementById('resource-list-section');
 // --- Functions ---
 
 /**
@@ -25,6 +25,29 @@
  */
 function createResourceArticle(resource) {
   // ... your implementation here ...
+      // Create the article element
+    const article = document.createElement('article');
+    article.className = 'resource';
+    
+    // Create the heading for resource title
+    const heading = document.createElement('h2');
+    heading.textContent = resource.title;
+    
+    // Create the paragraph for resource description
+    const paragraph = document.createElement('p');
+    paragraph.textContent = resource.description;
+    
+    // Create the anchor tag for the link
+    const link = document.createElement('a');
+    link.href = `details.html?id=${resource.id}`;
+    link.textContent = 'View Resource & Discussion';
+    
+    // Append all elements to the article
+    article.appendChild(heading);
+    article.appendChild(paragraph);
+    article.appendChild(link);
+    
+    return article;
 }
 
 /**
@@ -40,6 +63,27 @@ function createResourceArticle(resource) {
  */
 async function loadResources() {
   // ... your implementation here ...
+     try {
+        // 1. Use `fetch()` to get data from 'resources.json'
+        const response = await fetch('resources.json');
+        
+        // 2. Parse the JSON response into an array
+        const resources = await response.json();
+        
+        // 3. Clear any existing content from `listSection`
+        resourceListSection.innerHTML = '';
+        
+        // 4. Loop through the resources array
+        resources.forEach(resource => {
+            // Call `createResourceArticle()`
+            const resourceArticle = createResourceArticle(resource);
+            // Append the returned <article> element to `listSection`
+            resourceListSection.appendChild(resourceArticle);
+        });
+    } catch (error) {
+        console.error('Error loading resources:', error);
+        resourceListSection.innerHTML = '<p>Error loading resources. Please try again later.</p>';
+    }
 }
 
 // --- Initial Page Load ---
