@@ -34,6 +34,11 @@
  * 
  * Response Format: JSON
  */
+session_start();
+$_SESSION['user'] = [
+    'role' => 'student',
+    'logged_in' => true
+];
 
 // ============================================================================
 // SETUP AND CONFIGURATION
