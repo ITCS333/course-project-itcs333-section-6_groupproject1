@@ -55,6 +55,7 @@
 // Allow cross-origin requests (CORS) if needed
 // Allow specific HTTP methods (GET, POST, PUT, DELETE, OPTIONS)
 // Allow specific headers (Content-Type, Authorization)
+
 header('Content-Type: application/json');
 
 header('Access-Control-Allow-Origin: *');
