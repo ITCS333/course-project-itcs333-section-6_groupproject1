@@ -23,7 +23,18 @@
  * 
  * Response Format: JSON
  */
+// Start session for authentication
+session_start();
 
+// Check if user is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    http_response_code(401);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Unauthorized. Please log in.'
+    ]);
+    exit();
+}
 // TODO: Set headers for JSON response and CORS
 // Set Content-Type to application/json
 // Allow cross-origin requests (CORS) if needed
