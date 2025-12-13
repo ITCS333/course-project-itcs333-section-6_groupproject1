@@ -1,3 +1,4 @@
+
 /*
   Requirement: Populate the "Course Resources" list page.
 
@@ -65,7 +66,7 @@ async function loadResources() {
   // ... your implementation here ...
      try {
         // 1. Use `fetch()` to get data from 'resources.json'
-        const response = await fetch('resources.json');
+        const response = await fetch('api/resources.json');
         
         // 2. Parse the JSON response into an array
         const resources = await response.json();
