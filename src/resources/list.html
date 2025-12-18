@@ -10,50 +10,81 @@
 <head>
     <!-- TODO: Add meta tags for charset and viewport. -->
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- TODO: Add a title, e.g., "Course Resources". -->
-<title>Course Resources</title>
+    <title>Course Resources</title>
     <!-- TODO: Link to your CSS framework or stylesheet. -->
- <link rel="stylesheet" href="../common/styles.css">
-  <script src="list.js" defer></script>
+    <link rel="stylesheet" href="../common/styles.css">
+    <script src="list.js" defer></script>
 </head>
 <body>
-
     <!-- TODO: Create a 'header' with a main heading ('h1') "Course Resources". -->
-<header>
-    <h1>Course Resources</h1>
-</header>
+    <header>
+        <h1>Course Resources</h1>
+        <p class="subtitle">Browse all available course materials and join discussions</p>
+    </header>
+    
     <!-- TODO: Create the 'main' content area. -->
-  <main>
+    <main>
         <!-- TODO: Create a 'section' to contain the list of resources. -->
-  <section id="resource-list-section">
+        <section id="resource-list-section">
             <!-- TODO: Add 2-3 dummy resources using the structure below. -->
-
-            <!-- Example Resource 1: -->
-            <!-- TODO: Use an 'article' element for each resource to group its content semantically. -->
-      <article class="resource">
+            
+            <!-- Loading message (will be replaced by JavaScript) -->
+            <div id="loading-message" class="loading">
+                <p>Loading resources...</p>
+            </div>
+            
+            <!-- Empty state (will be shown/hidden by JavaScript) -->
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <p>No resources available yet. Check back soon!</p>
+            </div>
+            
+            <!-- Resources will be dynamically inserted here by JavaScript -->
+            <div id="resources-container"></div>
+            
+            <!-- Example Resource 1 (for reference, will be removed by JavaScript) -->
+            <article class="resource" id="example-resource-1">
                 <!-- TODO: Add a heading ('h2' or 'h3') for the resource title (e.g., "Chapter 1 Notes"). -->
-        <h2>Chapter 1 Notes</h2>
+                <h2 class="resource-title">Chapter 1 Notes</h2>
                 <!-- TODO: Add a paragraph ('p') for the resource description. -->
-        <p>Comprehensive notes covering the fundamental concepts and introductory material for the course.</p>
+                <p class="resource-description">Comprehensive notes covering the fundamental concepts and introductory material for the course.</p>
                 <!-- TODO: Add an anchor tag ('a') that links to the detail page. 
                      - For now, the 'href' can be "resource-detail.html".
                      - The link text should be "View Resource & Discussion". -->
-        <a href="resource-detail.html">View Resource & Discussion</a>
+                <a href="details.html?id=res_1" class="resource-link">View Resource & Discussion</a>
+                <!-- Optional: Add metadata -->
+                <div class="resource-meta">
+                    <span class="comment-count">3 comments</span>
+                </div>
             <!-- End of article. -->
-</article>
+            </article>
+            
             <!-- Example Resource 2: -->
             <!-- TODO: Create a second 'article' for another resource. -->
-      <article class="resource">
+            <article class="resource" id="example-resource-2">
                 <!-- TODO: Add a heading, paragraph, and an anchor tag linking to "resource-detail.html". -->
-        <h2>Assignment Guide</h2>
-<p>Step-by-step instructions and tips for completing the first major assignment.</p>
-<a href="resource-detail.html">View Resource & Discussion</a>
+                <h2 class="resource-title">Assignment Guide</h2>
+                <p class="resource-description">Step-by-step instructions and tips for completing the first major assignment.</p>
+                <a href="details.html?id=res_2" class="resource-link">View Resource & Discussion</a>
+                <div class="resource-meta">
+                    <span class="comment-count">1 comment</span>
+                </div>
             <!-- End of article. -->
-        </article>
-
-        <!-- End of resource list section. -->  </section>
-    <!-- End of main. -->  </main>
-
+            </article>
+            
+            <!-- Example Resource 3: -->
+            <article class="resource" id="example-resource-3">
+                <h2 class="resource-title">Helpful Website Collection</h2>
+                <p class="resource-description">Curated list of external websites with additional examples and practice problems.</p>
+                <a href="details.html?id=res_3" class="resource-link">View Resource & Discussion</a>
+                <div class="resource-meta">
+                    <span class="comment-count">No comments yet</span>
+                </div>
+            </article>
+        <!-- End of resource list section. -->
+        </section>
+    <!-- End of main. -->
+    </main>
 </body>
 </html>
