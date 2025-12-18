@@ -9,90 +9,98 @@
 <head>
     <!-- TODO: Add meta tags for charset and viewport. -->
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- TODO: Add a title. You can make it dynamic later, but for now, use "Resource Details". -->
-<title>Resource Details</title>
+    <title>Resource Details</title>
     <!-- TODO: Link to your CSS framework or stylesheet. -->
-  <link rel="stylesheet" href="../common/styles.css">
-  <script src="details.js" defer></script>
+    <link rel="stylesheet" href="../common/styles.css">
+    <script src="details.js" defer></script>
 </head>
 <body>
     <!-- TODO: Create a 'header' with a main heading ('h1'). You can use a dummy title like "Chapter 1 Notes". -->
-<header>
-    <h1 id="resource-title">Chapter 1 Notes</h1>
-</header>
+    <header>
+        <h1 id="resource-title">Chapter 1 Notes</h1>
+    </header>
+    
     <!-- TODO: Create the 'main' content area. -->
-<main>
+    <main>
         <!-- Section 1: Resource Information -->
         <!-- TODO: Use an 'article' to display the main resource information. -->
-  <article>
+        <article class="resource-details">
             <!-- TODO: Add a paragraph ('p') for the resource description (use dummy text). -->
-<p id="resource-description">This chapter cover the basics concepts to understand the subject</p>
+            <p id="resource-description">This chapter covers the basic concepts needed to understand the subject.</p>
+            
             <!-- TODO: Add an anchor tag ('a') that links to the actual resource URL (use a dummy link like "https://example.com").
                  - Text should be "Access Resource Material".
                  - Consider adding 'target="_blank"' to open it in a new tab. -->
- <a id="resource-link" href="https://example.com" target="_blank">Access Resource Material</a>
+            <a id="resource-link" href="https://example.com" target="_blank" class="resource-link">Access Resource Material</a>
         <!-- End of article. -->
-</article>
+        </article>
+        
         <!-- Section 2: Discussion Forum -->
         <!-- TODO: Create a 'section' for the discussion, with an 'id' of "discussion-forum". -->
-  <section id="discussion-forum">
+        <section id="discussion-forum">
             <!-- TODO: Add a sub-heading ('h2') "Discussion". -->
-<h2>Discussion</h2>
+            <h2>Discussion</h2>
+            
             <!-- Subsection 2.1: Existing Comments -->
             <!-- TODO: Add a container (like a 'div') for the list of comments. -->
- 
+            <div id="comment-list" class="comments-container">
                 <!-- TODO: Add 1-2 dummy comments to show the structure. -->
-<div id="comment-list" class="comments-container">
-    <!-- TODO: Add 1-2 dummy comments to show the structure. -->
-    <article class="comment">
-        <p>This resource was incredibly helpful for understanding the core concepts!</p>
-        <footer>Posted by: Ahmed</footer>
-    </article>
-
-    <article class="comment">
-        <p>The examples provided really clarified the more complex topics for me.</p>
-        <footer>Posted by: Ali</footer>
-    </article>
-
+                
                 <!-- Example Comment 1: -->
                 <!-- TODO: Use an 'article' for each comment. -->
-    <article class="comment">
- 
+                <article class="comment">
                     <!-- TODO: Use a 'p' for the comment text (e.g., "This was very helpful, thanks!"). -->
-    <p>This was very helpful, thanks!</p>
-                    <!-- TODO: Use a 'footer' to show the author (e.g., "Posted by: Jane Doe"). -->
-    <footer>Posted by: Jane Doe</footer>
+                    <p>This resource was incredibly helpful for understanding the core concepts!</p>
+                    <!-- TODO: Use a 'footer' to show the author (e.g., "Posted by: Ahmed"). -->
+                    <footer>Posted by: Ahmed</footer>
                 <!-- End of comment article. -->
-</article>
+                </article>
+                
                 <!-- Example Comment 2: -->
                 <!-- TODO: Create another 'article' for a second comment. -->
-    <article class="comment">
-      <p>The examples in this chapter made everything so clear!</p>
-    <footer>Posted by: Ali</footer>
-      </article>
+                <article class="comment">
+                    <p>The examples provided really clarified the more complex topics for me.</p>
+                    <footer>Posted by: Ali</footer>
+                </article>
+                
+                <!-- Example Comment 3: -->
+                <article class="comment">
+                    <p>This was very helpful, thanks! The diagrams were particularly useful.</p>
+                    <footer>Posted by: Jane Doe</footer>
+                </article>
             <!-- End of comment list container. -->
-</div>
+            </div>
+            
             <!-- Subsection 2.2: Add a Comment Form -->
             <!-- TODO: Create a 'form' for users to post new comments. Action can be '#'. -->
-   <form id="comment-form" action="#">
+            <form id="comment-form" action="#">
                 <!-- TODO: Use a 'fieldset' to group the controls. -->
-      <fieldset>
+                <fieldset>
                     <!-- TODO: Add a 'legend', e.g., "Leave a Comment". -->
-<legend>Leave a Comment</legend>
+                    <legend>Leave a Comment</legend>
+                    
                     <!-- TODO: Add a 'label' and 'textarea' for the comment box.
                          - label 'for': "new-comment"
                          - textarea 'id': "new-comment", required -->
-        <label for="new-comment">Your Comment:</label>
-<textarea id="new-comment" required></textarea>
+                    <div class="form-group">
+                        <label for="new-comment">Your Comment:</label>
+                        <textarea id="new-comment" name="comment" rows="4" required></textarea>
+                    </div>
                     
                     <!-- TODO: Add a 'button' to submit the comment.
                          - type="submit", Text: "Post Comment" -->
-        <button type="submit">Post Comment</button>
-                <!-- End of fieldset. -->   </fieldset>
-            <!-- End of form. -->   </form>
-        <!-- End of discussion section. -->  </section>
- 
-    <!-- End of main. -->   </main>
+                    <div class="form-group">
+                        <button type="submit">Post Comment</button>
+                    </div>
+                <!-- End of fieldset. -->
+                </fieldset>
+            <!-- End of form. -->
+            </form>
+        <!-- End of discussion section. -->
+        </section>
+    <!-- End of main. -->
+    </main>
 </body>
 </html>
