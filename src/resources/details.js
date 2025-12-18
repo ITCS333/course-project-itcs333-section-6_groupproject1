@@ -29,6 +29,7 @@ const resourceLinkElement = document.getElementById('resource-link');
 const commentListElement = document.getElementById('comment-list');
 const commentFormElement = document.getElementById('comment-form');
 const newCommentTextarea = document.getElementById('new-comment');
+
 // --- Functions ---
 
 /**
@@ -39,7 +40,6 @@ const newCommentTextarea = document.getElementById('new-comment');
  * 3. Return the id.
  */
 function getResourceIdFromURL() {
-  // ... your implementation here ...
     // 1. Get the query string from `window.location.search`
     const queryString = window.location.search;
     
@@ -60,8 +60,7 @@ function getResourceIdFromURL() {
  * 3. Set the `href` attribute of `resourceLink` to the resource's link.
  */
 function renderResourceDetails(resource) {
-  // ... your implementation here ...
-      // 1. Set the `textContent` of `resourceTitle` to the resource's title
+    // 1. Set the `textContent` of `resourceTitle` to the resource's title
     resourceTitleElement.textContent = resource.title;
     
     // 2. Set the `textContent` of `resourceDescription` to the resource's description
@@ -69,6 +68,8 @@ function renderResourceDetails(resource) {
     
     // 3. Set the `href` attribute of `resourceLink` to the resource's link
     resourceLinkElement.href = resource.link;
+    // Also update the link text to be more descriptive
+    resourceLinkElement.textContent = `Access Resource: ${resource.title}`;
 }
 
 /**
@@ -78,7 +79,6 @@ function renderResourceDetails(resource) {
  * (e.g., an <article> containing a <p> and a <footer>).
  */
 function createCommentArticle(comment) {
-  // ... your implementation here ...
     // Create the article element
     const article = document.createElement('article');
     article.className = 'comment';
@@ -90,6 +90,14 @@ function createCommentArticle(comment) {
     // Create the footer for author
     const footer = document.createElement('footer');
     footer.textContent = `Posted by: ${comment.author}`;
+    
+    // Add timestamp if available
+    if (comment.timestamp) {
+        const timeElement = document.createElement('span');
+        timeElement.className = 'comment-time';
+        timeElement.textContent = ` (${new Date(comment.timestamp).toLocaleDateString()})`;
+        footer.appendChild(timeElement);
+    }
     
     // Append paragraph and footer to article
     article.appendChild(paragraph);
@@ -107,9 +115,17 @@ function createCommentArticle(comment) {
  * append the resulting <article> to `commentList`.
  */
 function renderComments() {
-  // ... your implementation here ...
-   // 1. Clear the `commentList`
+    // 1. Clear the `commentList`
     commentListElement.innerHTML = '';
+    
+    // Check if there are no comments
+    if (currentComments.length === 0) {
+        const noCommentsMessage = document.createElement('p');
+        noCommentsMessage.textContent = 'No comments yet. Be the first to comment!';
+        noCommentsMessage.className = 'no-comments';
+        commentListElement.appendChild(noCommentsMessage);
+        return;
+    }
     
     // 2. Loop through the global `currentComments` array
     currentComments.forEach(comment => {
@@ -134,30 +150,36 @@ function renderComments() {
  * 7. Clear the `newComment` textarea.
  */
 function handleAddComment(event) {
-  // ... your implementation here ...
-      // 1. Prevent the form's default submission
+    // 1. Prevent the form's default submission
     event.preventDefault();
     
     // 2. Get the text from `newComment.value`
-    const commentText = newCommentTextarea.value;
+    const commentText = newCommentTextarea.value.trim();
     
     // 3. If the text is empty, return
-    if (!commentText.trim()) return;
+    if (!commentText) {
+        alert('Please enter a comment before posting.');
+        return;
+    }
     
-    // 4. Create a new comment object: { author: 'Student', text: commentText }
+    // 4. Create a new comment object
     const newComment = {
         author: 'Student',
-        text: commentText
+        text: commentText,
+        timestamp: new Date().toISOString() // Add timestamp for better UX
     };
     
     // 5. Add the new comment to the global `currentComments` array
-    currentComments.push(newComment);
+    currentComments.unshift(newComment); // Add to beginning to show newest first
     
     // 6. Call `renderComments()` to refresh the list
     renderComments();
     
     // 7. Clear the `newComment` textarea
     newCommentTextarea.value = '';
+    
+    // Focus back on the textarea for user convenience
+    newCommentTextarea.focus();
 }
 
 /**
@@ -178,35 +200,57 @@ function handleAddComment(event) {
  * 8. If the resource is not found, display an error in `resourceTitle`.
  */
 async function initializePage() {
-  // ... your implementation here ...
-      // 1. Get the `currentResourceId` by calling `getResourceIdFromURL()`
+    // 1. Get the `currentResourceId` by calling `getResourceIdFromURL()`
     currentResourceId = getResourceIdFromURL();
     
     // 2. If no ID is found, set `resourceTitle.textContent = "Resource not found."` and stop
     if (!currentResourceId) {
         resourceTitleElement.textContent = "Resource not found.";
+        document.title = "Resource Not Found";
         return;
     }
     
     try {
         // 3. `fetch` both 'resources.json' and 'resource-comments.json'
+        // Note: Adjusted paths based on likely project structure
         const [resourcesResponse, commentsResponse] = await Promise.all([
-            fetch('api/resources.json'), 
-            fetch('api/comments.json')
+            fetch('../api/resources.json').catch(() => ({ ok: false })),
+            fetch('../api/comments.json').catch(() => ({ ok: false }))
         ]);
         
-        // 4. Parse both JSON responses
-        const resources = await resourcesResponse.json();
-        const allComments = await commentsResponse.json();
+        let resources = [];
+        let allComments = {};
+        
+        // 4. Parse both JSON responses (with error handling)
+        if (resourcesResponse.ok) {
+            resources = await resourcesResponse.json();
+        } else {
+            console.warn('Could not load resources.json, using fallback data');
+            // Fallback dummy data
+            resources = [
+                { id: 'res_1', title: 'Chapter 1 Notes', description: 'Introduction to the course and basic concepts', link: '#' },
+                { id: 'res_2', title: 'Helpful Website', description: 'Link to external resource with examples', link: 'https://example.com' }
+            ];
+        }
+        
+        if (commentsResponse.ok) {
+            allComments = await commentsResponse.json();
+        } else {
+            console.warn('Could not load comments.json, using empty comments');
+            allComments = {};
+        }
         
         // 5. Find the correct resource from the resources array using the `currentResourceId`
-        const resource = resources.find(r => r.id == currentResourceId);
+        const resource = resources.find(r => r.id === currentResourceId);
         
         // 6. Get the correct comments array from the comments object using the `currentResourceId`
         currentComments = allComments[currentResourceId] || [];
         
         // 7. If the resource is found:
         if (resource) {
+            // Update page title
+            document.title = `${resource.title} - Resource Details`;
+            
             // - Call `renderResourceDetails()` with the resource object
             renderResourceDetails(resource);
             // - Call `renderComments()` to show the initial comments
@@ -216,12 +260,16 @@ async function initializePage() {
         } else {
             // 8. If the resource is not found, display an error in `resourceTitle`
             resourceTitleElement.textContent = "Resource not found.";
+            document.title = "Resource Not Found";
+            
+            // Disable the comment form
+            commentFormElement.style.display = 'none';
         }
     } catch (error) {
         console.error('Error initializing page:', error);
         resourceTitleElement.textContent = "Error loading resource.";
+        document.title = "Error";
     }
-
 }
 
 // --- Initial Page Load ---
