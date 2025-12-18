@@ -81,7 +81,7 @@ function renderResources(resources) {
  * 3. Call `renderResources()` with the array of resources.
  * 4. Handle errors gracefully (e.g., show a message if the fetch fails).
  */
-async function initializePage() {
+async function loadResources() {
     try {
         // Show loading state
         resourceListSection.innerHTML = '<p class="loading">Loading resources...</p>';
@@ -135,4 +135,4 @@ async function initializePage() {
 
 // --- Initial Page Load ---
 // Call the main async function to start the application.
-initializePage();
+loadResources();
