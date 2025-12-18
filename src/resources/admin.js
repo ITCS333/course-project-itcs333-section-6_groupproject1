@@ -14,12 +14,16 @@
 // --- Global Data Store ---
 // This will hold the resources loaded from the JSON file.
 let resources = [];
+let isEditing = false;
+let currentEditId = null;
 
 // --- Element Selections ---
 // TODO: Select the resource form ('#resource-form').
 const resourceForm = document.querySelector('#resource-form');
 // TODO: Select the resources table body ('#resources-tbody').
 const resourcesTbody = document.querySelector('#resources-tbody');
+const submitButton = document.querySelector('#add-resource');
+
 // --- Functions ---
 
 /**
@@ -33,8 +37,7 @@ const resourcesTbody = document.querySelector('#resources-tbody');
  * - A "Delete" button with class "delete-btn" and `data-id="${id}"`.
  */
 function createResourceRow(resource) {
-  // ... your implementation here ...
-      const tr = document.createElement('tr');
+    const tr = document.createElement('tr');
     tr.innerHTML = `
         <td>${resource.title}</td>
         <td>${resource.description}</td>
@@ -55,7 +58,6 @@ function createResourceRow(resource) {
  * append the resulting <tr> to `resourcesTableBody`.
  */
 function renderTable() {
-  // ... your implementation here ...
     resourcesTbody.innerHTML = '';
     resources.forEach(resource => {
         const row = createResourceRow(resource);
@@ -75,20 +77,69 @@ function renderTable() {
  * 6. Reset the form.
  */
 function handleAddResource(event) {
-  // ... your implementation here ...
     event.preventDefault();
+    
     const title = document.querySelector('#resource-title').value;
     const description = document.querySelector('#resource-description').value;
     const link = document.querySelector('#resource-link').value;
-    const newResource = {
-        id: `res_${Date.now()}`,
-        title: title,
-        description: description,
-        link: link
-    };
-    resources.push(newResource);
+    
+    if (!title.trim() || !link.trim()) {
+        alert('Please fill in required fields: Title and Link');
+        return;
+    }
+    
+    if (isEditing) {
+        // Update existing resource
+        const index = resources.findIndex(resource => resource.id === currentEditId);
+        if (index !== -1) {
+            resources[index] = {
+                ...resources[index],
+                title,
+                description,
+                link
+            };
+        }
+        
+        // Reset form state
+        isEditing = false;
+        currentEditId = null;
+        submitButton.textContent = 'Add Resource';
+        document.querySelector('h2').textContent = 'Add a New Resource';
+    } else {
+        // Add new resource
+        const newResource = {
+            id: `res_${Date.now()}`,
+            title: title,
+            description: description,
+            link: link
+        };
+        resources.push(newResource);
+    }
+    
     renderTable();
     resourceForm.reset();
+}
+
+/**
+ * Function to handle edit button click
+ */
+function handleEdit(id) {
+    const resource = resources.find(resource => resource.id === id);
+    if (resource) {
+        // Fill form with resource data
+        document.querySelector('#resource-title').value = resource.title;
+        document.querySelector('#resource-description').value = resource.description;
+        document.querySelector('#resource-link').value = resource.link;
+        
+        // Change form state to editing
+        isEditing = true;
+        currentEditId = id;
+        submitButton.textContent = 'Update Resource';
+        document.querySelector('h2').textContent = 'Edit Resource';
+        
+        // Scroll to form
+        document.querySelector('#resource-form').scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 /**
@@ -102,11 +153,15 @@ function handleAddResource(event) {
  * 4. Call `renderTable()` to refresh the list.
  */
 function handleTableClick(event) {
-  // ... your implementation here ...
-   if (event.target.classList.contains('delete-btn')) {
+    if (event.target.classList.contains('delete-btn')) {
         const id = event.target.getAttribute('data-id');
-        resources = resources.filter(resource => resource.id !== id);
-        renderTable();
+        if (confirm('Are you sure you want to delete this resource?')) {
+            resources = resources.filter(resource => resource.id !== id);
+            renderTable();
+        }
+    } else if (event.target.classList.contains('edit-btn')) {
+        const id = event.target.getAttribute('data-id');
+        handleEdit(id);
     }
 }
 
@@ -121,12 +176,44 @@ function handleTableClick(event) {
  * 5. Add the 'click' event listener to `resourcesTableBody` (calls `handleTableClick`).
  */
 async function loadAndInitialize() {
-  // ... your implementation here ...
-    const response = await fetch('api/resources.json');
-    resources = await response.json();
-    renderTable();
-    resourceForm.addEventListener('submit', handleAddResource);
-    resourcesTbody.addEventListener('click', handleTableClick);
+    try {
+        const response = await fetch('resources.json'); // Adjust path as needed
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        resources = await response.json();
+        renderTable();
+        resourceForm.addEventListener('submit', handleAddResource);
+        resourcesTbody.addEventListener('click', handleTableClick);
+        
+        // Add cancel button functionality
+        const cancelButton = document.createElement('button');
+        cancelButton.type = 'button';
+        cancelButton.id = 'cancel-edit';
+        cancelButton.textContent = 'Cancel Edit';
+        cancelButton.style.display = 'none';
+        cancelButton.addEventListener('click', () => {
+            isEditing = false;
+            currentEditId = null;
+            resourceForm.reset();
+            submitButton.textContent = 'Add Resource';
+            document.querySelector('h2').textContent = 'Add a New Resource';
+            cancelButton.style.display = 'none';
+        });
+        
+        document.querySelector('.form-group:last-child').appendChild(cancelButton);
+        
+    } catch (error) {
+        console.error('Error loading resources:', error);
+        // Use initial dummy data if fetch fails
+        resources = [
+            { id: 'res_1', title: 'Chapter 1 Notes', description: 'Introduction to the course and basic concepts', link: '#' },
+            { id: 'res_2', title: 'Helpful Website', description: 'Link to external resource with examples', link: 'https://example.com' }
+        ];
+        renderTable();
+        resourceForm.addEventListener('submit', handleAddResource);
+        resourcesTbody.addEventListener('click', handleTableClick);
+    }
 }
 
 // --- Initial Page Load ---
